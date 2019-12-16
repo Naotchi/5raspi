@@ -6,25 +6,26 @@ dir_test = "./data"  # 前処理が終わった画像を入れるディレクト
 # dir_test_height = "./data"
 data = cv2.imread(glob.glob('./question/*')[0], cv2.IMREAD_GRAYSCALE)
 
-pic = data[0:1000]  # ここから前と同じ
 hei = data[1000:3000]
 height = []
-for x in range(2000):
-    for y in range(0, 1527, 2):
-        a = hei[x][y] + 256 * hei[x][y + 1]
-        height.append(a)
-height = np.array(height)
-height = np.reshape(height, (1000, 1528))
-pic = pic[10: 660, 440: 1120]
-height = height[10: 660, 440: 1120]  # ここまで前と同じ
-for i in range(650):
-    for j in range(680):
-        if height[i][j] > 12500:
-            height[i][j] -= 12500
-        else:
-            height[i][j] = 0
+
+# 高さ情報取得
+hei = np.reshape(hei, -1)
+start_i = 31440 # 31440 = (10*1528+440)*2
+i = 31440
+while i < 2016144:# 2016144 = (659*1528+1120)*2 = (660*1528-408)*2
+    height.append(hei[i] + 256 * hei[i+1])
+    i += 2
+    if (i - start_i) % 1360 == 0: # 1360 = 680*2
+        i += 1696 # 1696 = ((1528-1120)+440)*2
+        start_i = i
+height = np.array(height).reshape([650, 680])
+
+# 台座減算 
+height = np.where(height > 12500, height - 12500, 0)
+
 height = height.astype('float32')
 height /= 2 ** 5
 
-np.save(dir_test + '/pic', pic)
+# np.save(dir_test + '/pic', pic)
 np.save(dir_test + '/height', height)
