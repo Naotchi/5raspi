@@ -11,14 +11,12 @@ height = []
 
 # 高さ情報取得
 hei = np.reshape(hei, -1)
-start_i = 31440 # 31440 = (10*1528+440)*2
-i = 31440
-while i < 2016144:# 2016144 = (659*1528+1120)*2 = (660*1528-408)*2
-    height.append(hei[i] + 256 * hei[i+1])
-    i += 2
-    if (i - start_i) % 1360 == 0: # 1360 = 680*2
-        i += 1696 # 1696 = ((1528-1120)+440)*2
-        start_i = i
+hei = hei[31440: 2016144] 
+
+for k in range(0, 1986400, 3056):
+    for i in range(k, k+1360, 2):
+        height.append(hei[i] + 256 * hei[i+1])
+
 height = np.array(height).reshape([650, 680])
 
 # 台座減算 
