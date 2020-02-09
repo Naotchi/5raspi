@@ -1,2 +1,3 @@
 # 5raspi
-プライベートリポジトリなので外からアクセスできないはず
+本番用にラズパイに入れたコードです
+questionに入ってきた1枚の画像に対しpreprocessing.pyで前処理を、processing.pyで推論を行います
