@@ -1,3 +1,3 @@
 # 5raspi
 本番用にラズパイに入れたコードです
-questionに入ってきた1枚の画像に対しpreprocessing.pyで前処理を、pr.pyで推論を行います
+questionに入ってきた1枚の画像に対しpreprocessing.pyで前処理を、predict.pyで推論を行います
